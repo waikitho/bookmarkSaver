@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html lang="en" ng-app="myApp" class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html lang="en" ng-app="myApp" class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html lang="en" ng-app="myApp" class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html lang="en" ng-app="myApp" class="no-js"> <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Bookmark Manager</title>
+  <meta name="description" content="">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="//netdna.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="bower_components/html5-boilerplate/dist/css/normalize.css">
+  <link rel="stylesheet" href="bower_components/html5-boilerplate/dist/css/main.css">
+  <link rel="stylesheet" href="app.css">
+  
+  <script src="bower_components/html5-boilerplate/dist/js/vendor/modernizr-2.8.3.min.js"></script>
+  <script src="bower_components/angular/angular.js"></script>
+  <script src="bower_components/angular-animate/angular-animate.js"></script>
+  <script src="bower_components/angular-bootstrap/ui-bootstrap-tpls.js"></script>
+  
+  <script src="app.js"></script>
+  <script src="js/bookmarkCtrl.js"></script>
+  <script src="js/errorCtrl.js"></script>
+</head>
+<body>
+
+  <div ng-view ng-controller="bookmarkCtrl">
+	<div class="header">
+		Bookmark Manager
+	</div>
+	
+  <div class="content">
+	<button type="button" class="btn btn-default"  ng-click="newRow()">+ New Bookmark</button>  
+    <table>
+	  <tr>
+		<th class="labelCol"><button type="button" class="btn btn-primary labelCol" ng-click="applySort('label')">Bookmark</button></th>
+		<th class="typeCol">
+		<button type="button" style="float:left;" class="btn btn-primary" ng-click="applySort('typeName')">Type</button>
+		  <div class="btn-group" uib-dropdown is-open="status.isopen" style="float:right;">
+		  <button id="single-button"  type="button" class="btn btn-normal" uib-dropdown-toggle ng-disabled="disabled">
+			<img src="img/filter-icon.png"/>
+		  </button>
+		  <ul uib-dropdown-menu role="menu" aria-labelledby="single-button">
+			<li role="menuitem" ng-repeat="type in types"><a href="#" ng-click="applyTypeFilter(type.typeName)">{{type.typeName}}</a></li>
+		  </ul>
+		</div>
+	  </th>
+	  <th class="urlCol"><button type="button" class="btn btn-primary urlCol" ng-click="applySort('url')">URL</button></th><th></th></tr>
+	  <tr ng-repeat="bookmark in bookmarks | filter: typeFilter | orderBy:sortOn">
+		<td><input type="text" ng-model="bookmark.label"></td>
+		<td><input type="text" ng-model="bookmark.typeName"></td>
+		<td><input type="text" ng-model="bookmark.url"></td>
+		<td><button type="button" class="btn btn-primary" ng-click="editRow(bookmark)">Save</button></td>	
+		<td><button type="button" class="btn btn-danger" ng-click="deleteBookmark(bookmark)">Delete</button></td>	
+	  </tr>
+	  </table>
+  </div>
+  </div>
+
+  <!-- In production use:
+  <script src="//ajax.googleapis.com/ajax/libs/angularjs/x.x.x/angular.min.js"></script>
+  -->
+
+</body>
+</html>
